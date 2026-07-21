@@ -1,5 +1,6 @@
-import { ArrowLeft, ArrowLeftRight, ArrowRight, CarFront, CircleDotDashed, Eye, KeyRound, Paintbrush, Radio, ShieldCheck, Sparkles, Stamp, SunMedium } from 'lucide-react'
+import { ArrowLeft, ArrowLeftRight, ArrowRight, CarFront, Check, CircleDotDashed, Eye, KeyRound, Paintbrush, Radio, ShieldCheck, Stamp, SunMedium, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { whatsappUrl } from './WhatsAppButton'
 import polarizadoAntes from '../assets/polarizado-antes.webp'
 import polarizadoDespues from '../assets/polarizado-despues.webp'
 import sacabolllosAntes from '../assets/sacabolllos-antes.webp'
@@ -23,12 +24,28 @@ const securitySlides = [
 ]
 
 const additionalServices = [
-  { title: 'Grabado de cristales', copy: 'Sistema arenado para identificar y proteger tu vehículo.', Icon: Stamp },
-  { title: 'Control solar', copy: 'Opciones espejadas y degradé para mayor confort y estilo.', Icon: SunMedium },
-  { title: 'Ploteos vehiculares', copy: 'Ploteos y gráficas para todo tipo de vehículos.', Icon: Paintbrush },
-  { title: 'Autoradio y abrillantados', copy: 'Autoradio, pulido de ópticas y abrillantado exterior.', Icon: Radio },
-  { title: 'Tapizados y llaves', copy: 'Limpieza de tapizados y llaves codificadas.', Icon: KeyRound },
+  { id: 'grabado', title: 'Grabado de cristales', copy: 'Sistema arenado para identificar y proteger tu vehículo.', Icon: Stamp },
+  { id: 'control-solar', title: 'Control solar', copy: 'Opciones espejadas y degradé para mayor confort y estilo.', Icon: SunMedium },
+  { id: 'ploteos', title: 'Ploteos vehiculares', copy: 'Ploteos y gráficas para todo tipo de vehículos.', Icon: Paintbrush },
+  { id: 'autoradio', title: 'Autoradio y abrillantados', copy: 'Autoradio, pulido de ópticas y abrillantado exterior.', Icon: Radio },
+  { id: 'tapizados', title: 'Tapizados y llaves', copy: 'Limpieza de tapizados y llaves codificadas.', Icon: KeyRound },
 ]
+
+const serviceDetails = {
+  polarizado: { title: 'Polarizado', text: 'Elegí la terminación ideal para tu vehículo con asesoramiento sobre el tono y la garantía.', bullets: ['Tonos claro, intermedio y negro', 'Opciones según garantía del producto', 'Instalación prolija con turno previo'] },
+  laminas: { title: 'Láminas de seguridad', text: 'Protegé los vidrios del auto con láminas de primera calidad e instalación profesional.', bullets: ['Mayor resistencia ante impactos', 'Materiales certificados', 'Terminación cuidada y asesoramiento personalizado'] },
+  sacabollos: { title: 'Saca bollos', text: 'Reparación de bollos sin dañar la pintura original del vehículo.', bullets: ['Técnica sin repintado cuando el caso lo permite', 'Evaluación previa del daño', 'Trabajo prolijo sobre la chapa original'] },
+  opticas: { title: 'Ópticas: pulido y oscurecido', text: 'Mejoramos el aspecto de las ópticas para una terminación renovada o más deportiva.', bullets: ['Pulido de ópticas', 'Oscurecido de ópticas', 'Terminación cuidada para tu vehículo'] },
+  grabado: { title: 'Grabado de cristales', text: 'Grabado de cristales mediante sistema arenado para identificar tu vehículo.', bullets: ['Sistema arenado', 'Aplicación sobre cristales', 'Consulta según tipo de vehículo'] },
+  'control-solar': { title: 'Control solar', text: 'Opciones para mejorar el confort y darle personalidad a tus vidrios.', bullets: ['Control solar', 'Terminaciones espejadas', 'Opciones degradé'] },
+  ploteos: { title: 'Ploteos vehiculares', text: 'Ploteos y gráfica para personalizar vehículos de todo tipo.', bullets: ['Diseños personalizados', 'Gráfica vehicular', 'Opciones para autos, utilitarios y más'] },
+  autoradio: { title: 'Autoradio y abrillantados', text: 'Servicios complementarios para renovar y equipar tu vehículo.', bullets: ['Autoradio', 'Pulido de ópticas', 'Abrillantado exterior'] },
+  tapizados: { title: 'Tapizados y llaves', text: 'Detalles para el interior y soluciones prácticas para tu vehículo.', bullets: ['Limpieza profunda de tapizados', 'Llaves codificadas', 'Consulta según necesidad'] },
+}
+
+function ServiceButton({ onClick }) {
+  return <button type="button" onClick={onClick} className="mt-5 inline-flex items-center gap-2 rounded-full border border-gold/75 px-4 py-2 text-xs font-bold uppercase tracking-wide text-gold transition hover:bg-gold hover:text-carbon">Ver servicio <ArrowRight size={15} /></button>
+}
 
 function BeforeAfter({ before, after, service, focus = '50% 50%' }) {
   const [position, setPosition] = useState(50)
@@ -60,14 +77,20 @@ function SecurityCarousel() {
   </div>
 }
 
+function ServiceInfoCard({ service, onClose }) {
+  if (!service) return null
+  return <div className="fixed inset-0 z-[100] grid place-items-center bg-black/80 px-4 py-6 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="service-title"><article className="relative w-full max-w-lg overflow-hidden rounded-[2rem] border border-red/70 bg-panel p-7 shadow-2xl shadow-red/20 sm:p-9"><div className="pointer-events-none absolute -right-20 -top-24 h-60 w-60 rounded-full bg-red/15 blur-3xl" /><button type="button" onClick={onClose} aria-label="Cerrar información del servicio" className="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white transition hover:border-gold hover:text-gold"><X size={18} /></button><div className="relative"><p className="text-xs font-bold uppercase tracking-[.24em] text-red">Servicio</p><h3 id="service-title" className="mt-3 font-display text-4xl tracking-wide text-white">{service.title}</h3><p className="mt-4 leading-relaxed text-white/70">{service.text}</p><ul className="mt-6 space-y-3">{service.bullets.map((bullet) => <li key={bullet} className="flex gap-3 text-sm text-white/85"><Check size={18} className="mt-0.5 shrink-0 text-gold" />{bullet}</li>)}</ul><a href={whatsappUrl} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-red px-5 py-3 text-sm font-bold text-white transition hover:bg-gold hover:text-carbon">Consultar por WhatsApp <ArrowRight size={17} /></a></div></article></div>
+}
+
 export default function Services() {
+  const [selectedService, setSelectedService] = useState(null)
   return <section id="servicios" className="section py-20"><div className="fade-up"><p className="eyebrow">Lo hacemos bien</p><h2 className="font-display text-5xl tracking-wide sm:text-6xl">SERVICIOS PARA <span className="text-red">DISFRUTAR MÁS</span> TU AUTO</h2>
     <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      <article className="group min-h-56 rounded-sm border border-red bg-red/10 p-5 transition hover:-translate-y-1 hover:border-gold sm:col-span-2"><CarFront className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Polarizado</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Variedad de tonos para elegir la terminación y garantía que mejor se adapten a tu auto.</p><TintSelector /><BeforeAfter before={polarizadoAntes} after={polarizadoDespues} service="polarizado" /></article>
-      <article className="group min-h-56 rounded-sm border border-gold/45 bg-panel p-5 transition hover:-translate-y-1 hover:border-gold sm:col-span-2"><ShieldCheck className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Láminas de seguridad</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Especialistas en protección para vidrios, con instalación profesional y materiales de primera calidad.</p><SecurityCarousel /></article>
-      <article className="group min-h-56 rounded-sm border border-red/50 bg-panel p-5 transition hover:-translate-y-1 hover:border-gold sm:col-span-2"><CircleDotDashed className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Saca bollos</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Sacabollos sin dañar la pintura original del vehículo.</p><BeforeAfter before={sacabolllosDespues} after={sacabolllosAntes} service="saca bollos" /></article>
-      <article className="group min-h-56 rounded-sm border border-white/10 bg-panel p-5 transition hover:-translate-y-1 hover:border-red sm:col-span-2"><Eye className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Ópticas: pulido y oscurecido</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Pulido y oscurecido de ópticas para una terminación más deportiva.</p><BeforeAfter before={opticasDespues} after={opticasAntes} service="ópticas" focus="50% 64%" /></article>
+      <article className="group min-h-56 rounded-sm border border-red bg-red/10 p-5 transition hover:-translate-y-1 hover:border-gold sm:col-span-2"><CarFront className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Polarizado</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Variedad de tonos para elegir la terminación y garantía que mejor se adapten a tu auto.</p><TintSelector /><ServiceButton onClick={() => setSelectedService('polarizado')} /><BeforeAfter before={polarizadoAntes} after={polarizadoDespues} service="polarizado" /></article>
+      <article className="group min-h-56 rounded-sm border border-gold/45 bg-panel p-5 transition hover:-translate-y-1 hover:border-gold sm:col-span-2"><ShieldCheck className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Láminas de seguridad</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Especialistas en protección para vidrios, con instalación profesional y materiales de primera calidad.</p><ServiceButton onClick={() => setSelectedService('laminas')} /><SecurityCarousel /></article>
+      <article className="group min-h-56 rounded-sm border border-red/50 bg-panel p-5 transition hover:-translate-y-1 hover:border-gold sm:col-span-2"><CircleDotDashed className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Saca bollos</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Sacabollos sin dañar la pintura original del vehículo.</p><ServiceButton onClick={() => setSelectedService('sacabollos')} /><BeforeAfter before={sacabolllosDespues} after={sacabolllosAntes} service="saca bollos" /></article>
+      <article className="group min-h-56 rounded-sm border border-white/10 bg-panel p-5 transition hover:-translate-y-1 hover:border-red sm:col-span-2"><Eye className="text-gold" size={30} /><h3 className="mt-4 font-display text-3xl tracking-wide">Ópticas: pulido y oscurecido</h3><p className="mt-1 text-sm leading-relaxed text-white/60">Pulido y oscurecido de ópticas para una terminación más deportiva.</p><ServiceButton onClick={() => setSelectedService('opticas')} /><BeforeAfter before={opticasDespues} after={opticasAntes} service="ópticas" focus="50% 64%" /></article>
     </div>
-    <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{additionalServices.map(({ title, copy, Icon }) => <article key={title} className="group rounded-sm border border-white/10 bg-panel p-5 transition hover:-translate-y-1 hover:border-gold"><Icon className="text-gold" size={27} /><h3 className="mt-4 font-display text-2xl leading-none tracking-wide">{title}</h3><p className="mt-3 text-sm leading-relaxed text-white/60">{copy}</p></article>)}</div>
-  </div></section>
+    <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{additionalServices.map(({ id, title, copy, Icon }) => <article key={title} className="group rounded-sm border border-white/10 bg-panel p-5 transition hover:-translate-y-1 hover:border-gold"><Icon className="text-gold" size={27} /><h3 className="mt-4 font-display text-2xl leading-none tracking-wide">{title}</h3><p className="mt-3 text-sm leading-relaxed text-white/60">{copy}</p><ServiceButton onClick={() => setSelectedService(id)} /></article>)}</div>
+  </div><ServiceInfoCard service={selectedService ? serviceDetails[selectedService] : null} onClose={() => setSelectedService(null)} /></section>
 }
