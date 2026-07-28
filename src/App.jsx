@@ -3,6 +3,7 @@ import Hero from './components/Hero'
 import About from './components/About'
 import Reviews from './components/Reviews'
 import Services from './components/Services'
+import VideoTestimonials from './components/VideoTestimonials'
 import WhyUs from './components/WhyUs'
 import Location from './components/Location'
 import Footer from './components/Footer'
@@ -32,7 +33,7 @@ export default function App() {
   return <>
     <script type="application/ld+json">{JSON.stringify(businessSchema)}</script>
     <LoadingScreen /><PageEffects /><Header />
-    <main><Hero /><About /><Reviews /><Services /><WhyUs /><Location /></main>
+    <main><Hero /><About /><Reviews /><Services /><VideoTestimonials /><WhyUs /><Location /></main>
     <Footer /><WhatsAppButton floating />
   </>
 }
