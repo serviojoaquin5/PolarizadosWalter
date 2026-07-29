@@ -8,9 +8,8 @@ export const polarizadosQuery = `{
   "page": *[_type == "polarizadosPage"][0]{
     title, subtitle, introduction, heroImage, ctaText, whatsappNumber, whatsappButtonText, seoTitle, seoDescription
   },
-  "products": *[_type == "polarizado" && active != false] | order(featured desc, order asc){
-    _id, name, "slug": slug.current, shortDescription, fullDescription, mainImage, gallery, category,
-    features, uvProtection, tones, heatReduction, securityLevel, price, priceText, featured, order, buttonText, whatsappLink
+  "products": *[_type == "polarizado"] | order(_createdAt desc){
+    _id, name, price, description, photos
   }
 }`
 

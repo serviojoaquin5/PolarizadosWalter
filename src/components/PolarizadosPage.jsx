@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Check, MessageCircle, ShieldCheck, SunMedium } from 'lucide-react'
+import { ArrowLeft, ArrowRight, MessageCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Header from './Header'
 import Footer from './Footer'
@@ -21,29 +21,24 @@ function whatsappLink(product, page) {
 }
 
 function ProductCard({ product, page }) {
-  const image = product.mainImage?.local || sanityImageUrl(product.mainImage)
-  const features = product.features?.filter(Boolean) || []
+  const images = (product.photos || []).map((photo) => sanityImageUrl(photo)).filter(Boolean)
   return <article className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-panel transition hover:-translate-y-1 hover:border-gold/75">
-    <div className="relative h-56 bg-black">{image ? <img src={image} alt={product.name} className="h-full w-full object-cover" loading="lazy" /> : <div className="grid h-full place-items-center bg-gradient-to-br from-red/30 via-carbon to-black text-sm font-bold uppercase tracking-[.2em] text-gold">Polarizados Walter</div>}<div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-5"><span className="rounded-full bg-gold px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-carbon">{product.tones?.join(' · ') || 'Polarizado'}</span></div></div>
-    <div className="p-6"><h2 className="font-display text-3xl tracking-wide text-white">{product.name}</h2><p className="mt-3 text-sm leading-relaxed text-white/65">{product.shortDescription || product.fullDescription}</p>
-      <div className="mt-5 grid gap-2 text-xs text-white/75"><p className="flex items-center gap-2"><SunMedium size={15} className="text-gold" />{product.uvProtection || 'Protección UV'}</p><p className="flex items-center gap-2"><ShieldCheck size={15} className="text-gold" />{product.heatReduction || 'Reducción de calor'}</p><p className="flex items-center gap-2"><ShieldCheck size={15} className="text-gold" />{product.securityLevel || 'Mayor privacidad'}</p></div>
-      {features.length > 0 && <ul className="mt-5 space-y-2 border-t border-white/10 pt-4">{features.map((feature) => <li key={feature} className="flex gap-2 text-sm text-white/70"><Check size={16} className="mt-0.5 shrink-0 text-gold" />{feature}</li>)}</ul>}
-      <div className="mt-6 flex items-center justify-between gap-3"><p><span className="block text-[10px] font-bold uppercase tracking-wider text-white/45">Precio</span><strong className="text-lg text-white">{product.price || product.priceText || 'Consultar'}</strong></p><a href={whatsappLink(product, page)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-red px-4 py-3 text-xs font-bold text-white transition hover:bg-gold hover:text-carbon"><MessageCircle size={16} />{product.buttonText || 'Consultar'}</a></div>
+    <div className="relative h-56 bg-black">{images[0] ? <img src={images[0]} alt={product.name} className="h-full w-full object-cover" loading="lazy" /> : <div className="grid h-full place-items-center bg-gradient-to-br from-red/30 via-carbon to-black text-sm font-bold uppercase tracking-[.2em] text-gold">Polarizados Walter</div>}{images[1] && <img src={images[1]} alt={`${product.name}, segunda foto`} className="absolute bottom-4 right-4 h-20 w-20 rounded-xl border-2 border-gold object-cover shadow-xl" loading="lazy" />}</div>
+    <div className="p-6"><h2 className="font-display text-3xl tracking-wide text-white">{product.name}</h2><p className="mt-3 text-sm leading-relaxed text-white/65">{product.description || 'Consultanos para conocer los detalles de esta opción.'}</p>
+      <div className="mt-6 flex items-center justify-between gap-3"><p><span className="block text-[10px] font-bold uppercase tracking-wider text-white/45">Precio</span><strong className="text-lg text-white">{product.price || 'Consultar'}</strong></p><a href={whatsappLink(product, page)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-red px-4 py-3 text-xs font-bold text-white transition hover:bg-gold hover:text-carbon"><MessageCircle size={16} />Consultar</a></div>
     </div>
   </article>
 }
 
 export default function PolarizadosPage() {
   const [data, setData] = useState({ page: fallbackPage, products: [] })
-  const [status, setStatus] = useState('loading')
 
   useEffect(() => {
     let subscribed = true
     fetchPolarizados().then((result) => {
       if (!subscribed) return
       setData({ page: { ...fallbackPage, ...(result.page || {}) }, products: result.products || [] })
-      setStatus('ready')
-    }).catch(() => subscribed && setStatus('fallback'))
+    }).catch(() => subscribed && setData({ page: fallbackPage, products: [] }))
     return () => { subscribed = false }
   }, [])
 
