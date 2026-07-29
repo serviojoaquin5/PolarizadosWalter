@@ -9,7 +9,7 @@ export const polarizadosQuery = `{
     title, subtitle, introduction, heroImage, ctaText, whatsappNumber, whatsappButtonText, seoTitle, seoDescription
   },
   "products": *[_type == "polarizado"] | order(_createdAt desc){
-    _id, name, price, description, photos
+    _id, name, price, description, photos[]{"url": asset->url, "ref": asset._ref}
   }
 }`
 
@@ -21,8 +21,12 @@ export async function fetchPolarizados() {
 }
 
 export function sanityImageUrl(image, width = 1200) {
-  const ref = image?.asset?._ref
-  if (!ref) return null
-  const file = ref.replace(/^image-/, '').replace(/-(\d+x\d+)-(\w+)$/, '.$2')
-  return `https://cdn.sanity.io/images/${projectId}/${dataset}/${file}?w=${width}&auto=format`
+  const ref = image?.ref || image?.asset?._ref
+  if (ref) {
+    const file = ref.replace(/^image-/, '').replace(/-(\d+x\d+)-(\w+)$/, '.$2')
+    return `https://cdn.sanity.io/images/${projectId}/${dataset}/${file}?w=${width}&auto=format`
+  }
+  if (image?.url) return `${image.url}?w=${width}&auto=format`
+  if (image?.asset?.url) return `${image.asset.url}?w=${width}&auto=format`
+  return null
 }
