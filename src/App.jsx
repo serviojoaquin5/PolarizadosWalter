@@ -10,6 +10,7 @@ import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
 import PageEffects from './components/PageEffects'
 import LoadingScreen from './components/LoadingScreen'
+import PolarizadosPage from './components/PolarizadosPage'
 
 const businessSchema = {
   '@context': 'https://schema.org',
@@ -30,6 +31,7 @@ const businessSchema = {
 }
 
 export default function App() {
+  if (window.location.pathname === '/polarizados') return <PolarizadosPage />
   return <>
     <script type="application/ld+json">{JSON.stringify(businessSchema)}</script>
     <LoadingScreen /><PageEffects /><Header />

@@ -5,8 +5,8 @@ import WhatsAppButton from './WhatsAppButton'
 
 const links = [
   ['Quiénes somos', '#quienes-somos'],
-  ['Servicios', '#servicios'],
   ['Opiniones', '#resenas'],
+  ['Servicios', '#servicios'],
   ['Ubicación', '#ubicacion'],
   ['Contacto', '#contacto'],
 ]
