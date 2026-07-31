@@ -21,9 +21,9 @@ function whatsappLink(product, page) {
 }
 
 function ProductCard({ product, page }) {
-  const images = (product.photos || []).map((photo) => sanityImageUrl(photo)).filter(Boolean)
+  const image = product.imageUrl || sanityImageUrl(product.image || product.photos?.[0])
   return <article className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-panel transition hover:-translate-y-1 hover:border-gold/75">
-    <div className="relative h-56 bg-black">{images[0] ? <img src={images[0]} alt={product.name} className="h-full w-full object-cover" loading="lazy" /> : <div className="grid h-full place-items-center bg-gradient-to-br from-red/30 via-carbon to-black text-sm font-bold uppercase tracking-[.2em] text-gold">Polarizados Walter</div>}{images[1] && <img src={images[1]} alt={`${product.name}, segunda foto`} className="absolute bottom-4 right-4 h-20 w-20 rounded-xl border-2 border-gold object-cover shadow-xl" loading="lazy" />}</div>
+    <div className="h-56 bg-black">{image ? <img src={image} alt={product.name} className="h-full w-full object-cover" loading="lazy" /> : <div className="grid h-full place-items-center bg-gradient-to-br from-red/30 via-carbon to-black text-sm font-bold uppercase tracking-[.2em] text-gold">Polarizados Walter</div>}</div>
     <div className="p-6"><h2 className="font-display text-3xl tracking-wide text-white">{product.name}</h2><p className="mt-3 text-sm leading-relaxed text-white/65">{product.description || 'Consultanos para conocer los detalles de esta opción.'}</p>
       <div className="mt-6 flex items-center justify-between gap-3"><p><span className="block text-[10px] font-bold uppercase tracking-wider text-white/45">Precio</span><strong className="text-lg text-white">{product.price || 'Consultar'}</strong></p><a href={whatsappLink(product, page)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-red px-4 py-3 text-xs font-bold text-white transition hover:bg-gold hover:text-carbon"><MessageCircle size={16} />Consultar</a></div>
     </div>

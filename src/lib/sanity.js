@@ -9,7 +9,8 @@ export const polarizadosQuery = `{
     title, subtitle, introduction, heroImage, ctaText, whatsappNumber, whatsappButtonText, seoTitle, seoDescription
   },
   "products": *[_type == "polarizado"] | order(_createdAt desc){
-    _id, name, price, description, photos[]{"url": asset->url, "ref": asset._ref}
+    _id, name, price, description,
+    "imageUrl": coalesce(image.asset->url, photos[0].asset->url)
   }
 }`
 
@@ -21,12 +22,13 @@ export async function fetchPolarizados() {
 }
 
 export function sanityImageUrl(image, width = 1200) {
+  const directUrl = image?.url || image?.asset?.url
+  if (directUrl) return `${directUrl}?w=${width}&auto=format`
   const ref = image?.ref || image?.asset?._ref
   if (ref) {
-    const file = ref.replace(/^image-/, '').replace(/-(\d+x\d+)-(\w+)$/, '.$2')
+    // Conserva las medidas del asset: image-id-1200x800-jpg => id-1200x800.jpg
+    const file = ref.replace(/^image-/, '').replace(/-(\w+)$/, '.$1')
     return `https://cdn.sanity.io/images/${projectId}/${dataset}/${file}?w=${width}&auto=format`
   }
-  if (image?.url) return `${image.url}?w=${width}&auto=format`
-  if (image?.asset?.url) return `${image.asset.url}?w=${width}&auto=format`
   return null
 }
