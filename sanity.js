@@ -10,8 +10,7 @@ export const polarizadosQuery = `{
   },
   "products": *[_type == "polarizado"] | order(_createdAt desc){
     _id, name, price, description,
-    "image": image{"url": asset->url, "ref": asset._ref},
-    "photos": photos[]{"url": asset->url, "ref": asset._ref}
+    "imageUrl": coalesce(image.asset->url, photos[0].asset->url)
   }
 }`
 
