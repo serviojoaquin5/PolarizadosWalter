@@ -24,9 +24,9 @@ import galeria6 from '../assets/galeria-6.jpg'
 import galeria7 from '../assets/galeria-7.jpg'
 
 const tintOptions = [
-  { name: 'Claro', price: '$85.000', warranty: 'Garantía de 1 año', swatch: 'bg-white text-carbon border-white' },
-  { name: 'Intermedio', price: '$105.000', warranty: 'Garantía de 3 años', swatch: 'bg-zinc-500 text-white border-white/30' },
-  { name: 'Oscuro', price: '$125.000', warranty: 'Garantía de 5 años', swatch: 'bg-black text-gold border-gold' },
+  { name: 'Claro', warranty: 'Garantía de 1 año', swatch: 'bg-white text-carbon border-white' },
+  { name: 'Intermedio', warranty: 'Garantía de 3 años', swatch: 'bg-zinc-500 text-white border-white/30' },
+  { name: 'Oscuro', warranty: 'Garantía de 5 años', swatch: 'bg-black text-gold border-gold' },
 ]
 
 const securitySlides = [
@@ -86,8 +86,7 @@ function BeforeAfter({ before, after, service, focus = '50% 50%' }) {
 function TintSelector() {
   const [selected, setSelected] = useState(tintOptions[0])
   return <><div className="mt-4 grid grid-cols-3 gap-2" aria-label="Elegí un tono de polarizado">{tintOptions.map((option) => <button key={option.name} type="button" onClick={() => setSelected(option)} aria-pressed={selected.name === option.name} className={`rounded-sm border px-2 py-2 text-xs font-bold transition focus:outline-none focus:ring-2 focus:ring-gold ${option.swatch} ${selected.name === option.name ? 'scale-[1.03] ring-2 ring-gold ring-offset-2 ring-offset-red/10' : 'opacity-70 hover:opacity-100'}`}>{option.name}</button>)}</div>
-    <div className="mt-3 flex items-center justify-between gap-3 rounded-sm border border-gold/40 bg-black/40 px-3 py-2" aria-live="polite"><div><p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gold">{selected.warranty}</p><p className="text-xs text-white/70">Polarizado {selected.name.toLowerCase()}</p></div><p className="text-right"><span className="block text-[10px] uppercase tracking-wide text-white/45">Desde</span><strong className="font-display text-2xl tracking-wide text-white">{selected.price}</strong></p></div>
-    <p className="mt-2 text-[11px] leading-relaxed text-gold/85">Valores orientativos: el precio final puede variar según el vehículo y la garantía elegida.</p></>
+    <div className="mt-3 rounded-sm border border-gold/40 bg-black/40 px-3 py-2" aria-live="polite"><p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gold">{selected.warranty}</p><p className="mt-1 text-xs text-white/70">Polarizado {selected.name.toLowerCase()}</p></div></>
 }
 
 function SecurityCarousel() {
