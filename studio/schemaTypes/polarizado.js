@@ -5,9 +5,7 @@ export const polarizado = {
     { name: 'price', title: 'Precio', type: 'string', validation: (Rule) => Rule.required() },
     { name: 'description', title: 'Descripción', type: 'text', rows: 5, validation: (Rule) => Rule.required() },
     {
-      name: 'photos', title: 'Fotos (opcional, máximo 2)', type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
-      validation: (Rule) => Rule.max(2),
+      name: 'image', title: 'Imagen', type: 'image', options: { hotspot: true },
     },
   ],
 }

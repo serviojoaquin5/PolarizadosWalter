@@ -1,4 +1,4 @@
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID || import.meta.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'o9rmoj6k'
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID || import.meta.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'qfvu2lz5'
 const dataset = import.meta.env.VITE_SANITY_DATASET || import.meta.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const apiVersion = import.meta.env.VITE_SANITY_API_VERSION || import.meta.env.NEXT_PUBLIC_SANITY_API_VERSION || '2026-03-01'
 

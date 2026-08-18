@@ -6,7 +6,7 @@ import { schemaTypes } from './schemaTypes'
 export default defineConfig({
   name: 'polarizados-walter',
   title: 'Polarizados Walter',
-  projectId: 'o9rmoj6k',
+  projectId: 'qfvu2lz5',
   dataset: 'production',
   plugins: [structureTool({ name: 'contenido', title: 'Productos y páginas' }), visionTool()],
   schema: { types: schemaTypes },
