@@ -1,11 +1,12 @@
 import { ArrowDown, ArrowRight, ShieldCheck, Star } from 'lucide-react'
 import WhatsAppButton from './WhatsAppButton'
+import heroGarage from '../assets/hero-garage.jpg'
 
 export default function Hero() {
   return <section id="inicio" className="carbon-grid hero-motion relative isolate overflow-hidden">
     <div className="hero-orb hero-orb-red" /><div className="hero-orb hero-orb-gold" />
-    <div className="absolute inset-0 bg-gradient-to-r from-carbon via-carbon/70 to-carbon/15" />
-    <div className="absolute inset-0 -z-10 bg-[url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85')] bg-cover bg-center" aria-hidden="true" />
+    <img src={heroGarage} alt="Audi con vidrios polarizados en un taller" width="1600" height="686" fetchPriority="high" className="absolute inset-0 -z-10 h-full w-full object-cover object-[65%_center] lg:object-center" />
+    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-carbon/95 via-carbon/65 to-carbon/10 lg:from-carbon/80 lg:via-carbon/25 lg:to-transparent" />
     <div className="section relative flex min-h-[calc(100svh-72px)] max-w-6xl items-center py-16 sm:py-24"><div className="max-w-xl hero-copy">
       <h1 className="relative z-10 font-display text-6xl leading-[.83] tracking-wide drop-shadow-[0_3px_2px_rgba(0,0,0,.7)] sm:text-8xl">TU AUTO.<br /><span className="text-red">OTRA PRESENCIA.</span></h1>
       <p className="mt-6 max-w-md text-base leading-relaxed text-white/85 sm:text-lg">Polarizados, láminas de seguridad y cuidado vehicular con terminaciones prolijas y tiempos que se cumplen.</p>
