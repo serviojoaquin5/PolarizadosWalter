@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "polarizadoswalter.com" }], "destination": "https://www.polarizadoswalter.com/:path*", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "polarizados-walter-nccb.vercel.app" }], "destination": "https://www.polarizadoswalter.com/:path*", "permanent": true }
+  ],
+  "rewrites": [{ "source": "/polarizados", "destination": "/polarizados/index.html" }]
 }
