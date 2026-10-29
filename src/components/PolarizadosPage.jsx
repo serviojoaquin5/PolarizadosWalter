@@ -30,15 +30,17 @@ function ProductCard({ product, page }) {
   </article>
 }
 
-export default function PolarizadosPage() {
-  const [data, setData] = useState({ page: fallbackPage, products: [] })
+export default function PolarizadosPage({ initialData }) {
+  const [data, setData] = useState(() => ({ page: { ...fallbackPage, ...(initialData?.page || {}) }, products: initialData?.products || [] }))
 
   useEffect(() => {
     let subscribed = true
     fetchPolarizados().then((result) => {
       if (!subscribed) return
       setData({ page: { ...fallbackPage, ...(result.page || {}) }, products: result.products || [] })
-    }).catch(() => subscribed && setData({ page: fallbackPage, products: [] }))
+    }).catch(() => {
+      // Keep the pre-rendered catalog if a temporary CMS/network error occurs.
+    })
     return () => { subscribed = false }
   }, [])
 
