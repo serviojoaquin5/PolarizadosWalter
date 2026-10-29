@@ -14,8 +14,8 @@ export const polarizadosQuery = `{
   }
 }`
 
-export async function fetchPolarizados() {
-  const response = await fetch(`${apiUrl}?query=${encodeURIComponent(polarizadosQuery)}`)
+export async function fetchPolarizados({ signal } = {}) {
+  const response = await fetch(`${apiUrl}?query=${encodeURIComponent(polarizadosQuery)}`, { signal })
   if (!response.ok) throw new Error('No se pudo consultar Sanity')
   const payload = await response.json()
   return payload.result || { page: null, products: [] }
